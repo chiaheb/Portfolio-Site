@@ -8,7 +8,7 @@ const Hero: React.FC = () => {
           <span className="text-gray-200 block">Architect</span>
           <span className="text-black block">Product designer</span>
         </h1>
-        <p className="text-xl md:text-2xl text-gray-500 max-w-3xl font-light leading-relaxed">
+        <p className="text-xl md:text-2xl text-gray-500 max-w-3xl font-light leading-relaxed mb-12">
           My designs used to shape big cities, and now it helps to drive even bigger ideas and goals for startups.
         </p>
       </div>

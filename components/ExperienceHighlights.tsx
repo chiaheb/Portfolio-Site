@@ -75,7 +75,7 @@ const CharacterGraphic: React.FC<{ item: HighlightItem }> = ({ item }) => {
 const ExperienceHighlights: React.FC = () => {
   const highlights: HighlightItem[] = [
     {
-      title: "move fast to capture value early",
+      title: "act fast to capture value",
       type: "fast",
       imageUrl: "https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/CarouselBH2.svg"
     },
@@ -85,7 +85,7 @@ const ExperienceHighlights: React.FC = () => {
       imageUrl: "https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/CarouselBH1.svg" 
     },
     {
-      title: "create design consistency",
+      title: "turn complex into intuitive",
       type: "consistency",
       imageUrl: "https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/Carousel3.svg" 
     }
@@ -134,93 +134,96 @@ const ExperienceHighlights: React.FC = () => {
   return (
     <section className="pb-24 px-6 overflow-hidden">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-8">
-          <h2 className="text-xl md:text-2xl text-gray-500 font-light leading-relaxed max-w-3xl italic">
-            I help product and business teams to
-          </h2>
-        </div>
-        
-        <div className="relative">
-          {/* Main Slides Container */}
-          <div className="relative min-h-[260px] md:min-h-[310px]">
-            {highlights.map((item, index) => {
-              const isActive = index === activeIndex;
-              const isPrev = index === prevIndex;
-              
-              let opacity = 0;
-              let transform = 'translateX(20px)';
-              
-              if (isActive) {
-                opacity = 1;
-                transform = 'translateX(0)';
-              } else if (isPrev) {
-                opacity = 0;
-                transform = 'translateX(-20px)';
-              }
+        {/* Main Experience Container - Softened Shadow */}
+        <div className="bg-white rounded-[2.5rem] md:rounded-[3.5rem] p-8 md:p-16 lg:p-20 shadow-[0_2px_10px_rgba(0,0,0,0.03)] border border-gray-100 overflow-hidden">
+          <div className="mb-6 md:mb-8">
+            <h2 className="text-xl md:text-2xl text-gray-400 font-light leading-relaxed max-w-3xl italic">
+              I help product and business teams to
+            </h2>
+          </div>
+          
+          <div className="relative">
+            {/* Main Slides Container - Significantly tightened min-height for mobile */}
+            <div className="relative min-h-[240px] md:min-h-[320px]">
+              {highlights.map((item, index) => {
+                const isActive = index === activeIndex;
+                const isPrev = index === prevIndex;
+                
+                let opacity = 0;
+                let transform = 'translateX(20px)';
+                
+                if (isActive) {
+                  opacity = 1;
+                  transform = 'translateX(0)';
+                } else if (isPrev) {
+                  opacity = 0;
+                  transform = 'translateX(-20px)';
+                }
 
-              return (
-                <div
-                  key={index}
-                  className="absolute inset-0 w-full transition-all duration-[800ms] ease-[cubic-bezier(0.23,1,0.32,1)]"
-                  style={{ 
-                    opacity, 
-                    transform,
-                    visibility: isActive || isPrev ? 'visible' : 'hidden',
-                    pointerEvents: isActive ? 'auto' : 'none'
-                  }}
-                >
-                  <div className="flex flex-col gap-4 md:gap-6 items-start justify-start">
-                    <div className="w-full">
-                      <h3 className="text-4xl md:text-6xl font-semibold leading-tight text-black tracking-tight max-w-none md:max-w-5xl">
-                        {item.title}
-                      </h3>
-                    </div>
-                    <div className="w-40 md:w-60 h-40 md:h-52 shrink-0">
-                      <CharacterGraphic item={item} />
+                return (
+                  <div
+                    key={index}
+                    className="absolute inset-0 w-full transition-all duration-[800ms] ease-[cubic-bezier(0.23,1,0.32,1)]"
+                    style={{ 
+                      opacity, 
+                      transform,
+                      visibility: isActive || isPrev ? 'visible' : 'hidden',
+                      pointerEvents: isActive ? 'auto' : 'none'
+                    }}
+                  >
+                    <div className="flex flex-col gap-2 md:gap-6 items-start justify-start">
+                      <div className="w-full">
+                        <h3 className="text-4xl md:text-6xl lg:text-7xl font-semibold leading-tight text-black tracking-tight max-w-none md:max-w-5xl">
+                          {item.title}
+                        </h3>
+                      </div>
+                      <div className="w-32 md:w-60 h-32 md:h-52 shrink-0">
+                        <CharacterGraphic item={item} />
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Navigation Controls */}
-          <div className="mt-2 md:mt-3 flex items-center justify-start space-x-6">
-            {/* Dots Pill - Solid background with shadow, removed border */}
-            <div className="bg-[#e5e7eb] px-8 py-4 rounded-full flex items-center space-x-5 h-12 shadow-[0_4px_12px_rgba(0,0,0,0.08)]">
-              {highlights.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleManualNav(index)}
-                  className="relative group p-1 focus:outline-none"
-                  aria-label={`Go to slide ${index + 1}`}
-                >
-                  <div className={`transition-all duration-500 rounded-full ${
-                    index === activeIndex 
-                      ? "bg-black w-10 h-[3px]" 
-                      : "bg-black/20 group-hover:bg-black/40 w-[5px] h-[5px]"
-                  }`} />
-                  <div className="absolute inset-0 -m-2" />
-                </button>
-              ))}
+                );
+              })}
             </div>
 
-            {/* Play/Pause Button - Solid background with shadow, removed border */}
-            <button 
-              onClick={togglePlay}
-              className="w-12 h-12 bg-[#e5e7eb] rounded-full flex items-center justify-center text-black hover:bg-gray-300 transition-all shadow-[0_4px_12px_rgba(0,0,0,0.08)] focus:outline-none"
-              aria-label={isPlaying ? "Pause carousel" : "Play carousel"}
-            >
-              {isPlaying ? (
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
-                </svg>
-              ) : (
-                <svg className="w-5 h-5 ml-1" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M8 5v14l11-7z" />
-                </svg>
-              )}
-            </button>
+            {/* Navigation Controls - Minimized margin-top to sit tight to image on mobile */}
+            <div className="mt-1 md:mt-6 flex items-center justify-start space-x-6">
+              {/* Dots Pill - Minimal Shadow */}
+              <div className="bg-[#f3f4f6] px-8 py-4 rounded-full flex items-center space-x-5 h-12 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+                {highlights.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleManualNav(index)}
+                    className="relative group p-1 focus:outline-none"
+                    aria-label={`Go to slide ${index + 1}`}
+                  >
+                    <div className={`transition-all duration-500 rounded-full ${
+                      index === activeIndex 
+                        ? "bg-black w-10 h-[3px]" 
+                        : "bg-black/20 group-hover:bg-black/40 w-[5px] h-[5px]"
+                    }`} />
+                    <div className="absolute inset-0 -m-2" />
+                  </button>
+                ))}
+              </div>
+
+              {/* Play/Pause Button - Minimal Shadow */}
+              <button 
+                onClick={togglePlay}
+                className="w-12 h-12 bg-[#f3f4f6] rounded-full flex items-center justify-center text-black hover:bg-gray-200 transition-all shadow-[0_2px_8px_rgba(0,0,0,0.04)] focus:outline-none"
+                aria-label={isPlaying ? "Pause carousel" : "Play carousel"}
+              >
+                {isPlaying ? (
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                  </svg>
+                ) : (
+                  <svg className="w-5 h-5 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                )}
+              </button>
+            </div>
           </div>
         </div>
       </div>

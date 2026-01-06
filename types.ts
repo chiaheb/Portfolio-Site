@@ -5,7 +5,8 @@ export interface Project {
   category: string;
   description: string;
   longDescription: string;
-  imageUrl: string;
+  imageUrl: string;      // Hero image for the modal
+  coverImageUrl: string; // Thumbnail image for the card
   tags: string[];
   role: string;
   timeline: string;

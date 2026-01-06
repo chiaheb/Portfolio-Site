@@ -18,14 +18,16 @@ const CharacterGraphic: React.FC<{ item: HighlightItem }> = ({ item }) => {
           alt={item.title} 
           className="w-full h-full object-contain"
           onError={(e) => {
-            console.warn(`Failed to load image for ${type}: ${imageUrl}`);
+            console.warn(`Failed to load image for ${type}: ${imageUrl}. Falling back to SVG.`);
+            // Optionally, we could hide the broken image and let the component fall through to SVG
+            (e.target as HTMLImageElement).style.display = 'none';
           }}
         />
       </div>
     );
   }
 
-  // Fallback SVGs if no imageUrl is provided
+  // Fallback SVGs if no imageUrl is provided or if it fails to load
   if (type === 'fast') {
     return (
       <svg viewBox="0 0 200 200" className="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -94,22 +96,22 @@ const CharacterGraphic: React.FC<{ item: HighlightItem }> = ({ item }) => {
 };
 
 const ExperienceHighlights: React.FC = () => {
-  // CONFIGURATION: Add your image URLs here
+  // CONFIGURATION: Using your local imageassets folder
   const highlights: HighlightItem[] = [
     {
       title: "move fast to capture value quickly",
       type: "fast",
-      imageUrl: "https://drive.google.com/file/d/1gUMnlxwSUca0BgGkaUnhRGNVyP3zBxQD/view?usp=sharing"
+      imageUrl: "imageassets/Carousel1.svg"
     },
     {
       title: "go from viable to scalable",
       type: "scale",
-      imageUrl: "https://drive.google.com/file/d/1gUMnlxwSUca0BgGkaUnhRGNVyP3zBxQD/view?usp=sharing" // Plug in a URL here to override the SVG
+      imageUrl: "imageassets/Carousel2.svg" // Placeholder path for your next asset
     },
     {
       title: "create design consistency",
       type: "consistency",
-      imageUrl: "https://drive.google.com/file/d/1gUMnlxwSUca0BgGkaUnhRGNVyP3zBxQD/view?usp=sharing" // Plug in a URL here to override the SVG
+      imageUrl: "imageassets/Carousel3.svg" // Placeholder path for your next asset
     }
   ];
 

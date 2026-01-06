@@ -92,6 +92,8 @@ const ExperienceHighlights: React.FC = () => {
   ];
 
   const [activeIndex, setActiveIndex] = useState(0);
+  const [prevIndex, setPrevIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
   const timeoutRef = useRef<number | null>(null);
 
   const resetTimeout = () => {
@@ -101,30 +103,32 @@ const ExperienceHighlights: React.FC = () => {
   };
 
   const nextSlide = () => {
-    setActiveIndex((prevIndex) =>
-      prevIndex === highlights.length - 1 ? 0 : prevIndex + 1
-    );
+    setPrevIndex(activeIndex);
+    setActiveIndex((prev) => (prev === highlights.length - 1 ? 0 : prev + 1));
   };
 
   const prevSlide = () => {
-    setActiveIndex((prevIndex) =>
-      prevIndex === 0 ? highlights.length - 1 : prevIndex - 1
-    );
+    setPrevIndex(activeIndex);
+    setActiveIndex((prev) => (prev === 0 ? highlights.length - 1 : prev - 1));
   };
 
   useEffect(() => {
     resetTimeout();
-    // Reduced from 5000 to 3000 for faster auto-scrolling
-    timeoutRef.current = window.setTimeout(nextSlide, 3000);
-
-    return () => {
-      resetTimeout();
-    };
-  }, [activeIndex]);
+    if (isPlaying) {
+      timeoutRef.current = window.setTimeout(nextSlide, 3500);
+    }
+    return () => resetTimeout();
+  }, [activeIndex, isPlaying]);
 
   const handleManualNav = (index: number) => {
+    if (index === activeIndex) return;
     resetTimeout();
+    setPrevIndex(activeIndex);
     setActiveIndex(index);
+  };
+
+  const togglePlay = () => {
+    setIsPlaying(!isPlaying);
   };
 
   return (
@@ -137,65 +141,86 @@ const ExperienceHighlights: React.FC = () => {
         </div>
         
         <div className="relative">
-          <div className="min-h-[300px] md:min-h-[360px]">
-            {highlights.map((item, index) => (
-              <div
-                key={index}
-                className={`transition-all duration-500 ease-in-out absolute top-0 left-0 w-full ${
-                  index === activeIndex 
-                    ? "opacity-100 translate-y-0 pointer-events-auto" 
-                    : "opacity-0 translate-y-8 pointer-events-none"
-                }`}
-              >
-                <div className="flex flex-col gap-4 md:gap-6 items-start justify-start">
-                  <div className="w-full">
-                    <h3 className="text-4xl md:text-6xl font-semibold leading-tight text-black tracking-tight max-w-none md:max-w-5xl">
-                      {item.title}
-                    </h3>
-                  </div>
-                  <div className="w-40 md:w-60 h-40 md:h-52 shrink-0">
-                    <CharacterGraphic item={item} />
+          {/* Main Slides Container */}
+          <div className="relative min-h-[260px] md:min-h-[310px]">
+            {highlights.map((item, index) => {
+              const isActive = index === activeIndex;
+              const isPrev = index === prevIndex;
+              
+              let opacity = 0;
+              let transform = 'translateX(20px)';
+              
+              if (isActive) {
+                opacity = 1;
+                transform = 'translateX(0)';
+              } else if (isPrev) {
+                opacity = 0;
+                transform = 'translateX(-20px)';
+              }
+
+              return (
+                <div
+                  key={index}
+                  className="absolute inset-0 w-full transition-all duration-[800ms] ease-[cubic-bezier(0.23,1,0.32,1)]"
+                  style={{ 
+                    opacity, 
+                    transform,
+                    visibility: isActive || isPrev ? 'visible' : 'hidden',
+                    pointerEvents: isActive ? 'auto' : 'none'
+                  }}
+                >
+                  <div className="flex flex-col gap-4 md:gap-6 items-start justify-start">
+                    <div className="w-full">
+                      <h3 className="text-4xl md:text-6xl font-semibold leading-tight text-black tracking-tight max-w-none md:max-w-5xl">
+                        {item.title}
+                      </h3>
+                    </div>
+                    <div className="w-40 md:w-60 h-40 md:h-52 shrink-0">
+                      <CharacterGraphic item={item} />
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
-          <div className="mt-4 md:mt-12 flex items-center space-x-8">
-            <div className="flex items-center space-x-6">
-              <button 
-                onClick={prevSlide}
-                className="p-2 border border-gray-200 rounded-full hover:bg-black hover:text-white transition-all text-gray-400"
-                aria-label="Previous slide"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
-
-              <div className="flex space-x-3">
-                {highlights.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handleManualNav(index)}
-                    className={`w-2 h-2 transition-all duration-500 rounded-full ${
-                      index === activeIndex ? "bg-black scale-125" : "bg-gray-200 hover:bg-gray-300"
-                    }`}
-                    aria-label={`Go to slide ${index + 1}`}
-                  />
-                ))}
-              </div>
-
-              <button 
-                onClick={nextSlide}
-                className="p-2 border border-gray-200 rounded-full hover:bg-black hover:text-white transition-all text-gray-400"
-                aria-label="Next slide"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
+          {/* Navigation Controls */}
+          <div className="mt-2 md:mt-3 flex items-center justify-start space-x-6">
+            {/* Dots Pill - Solid background with shadow, removed border */}
+            <div className="bg-[#e5e7eb] px-8 py-4 rounded-full flex items-center space-x-5 h-12 shadow-[0_4px_12px_rgba(0,0,0,0.08)]">
+              {highlights.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleManualNav(index)}
+                  className="relative group p-1 focus:outline-none"
+                  aria-label={`Go to slide ${index + 1}`}
+                >
+                  <div className={`transition-all duration-500 rounded-full ${
+                    index === activeIndex 
+                      ? "bg-black w-10 h-[3px]" 
+                      : "bg-black/20 group-hover:bg-black/40 w-[5px] h-[5px]"
+                  }`} />
+                  <div className="absolute inset-0 -m-2" />
+                </button>
+              ))}
             </div>
+
+            {/* Play/Pause Button - Solid background with shadow, removed border */}
+            <button 
+              onClick={togglePlay}
+              className="w-12 h-12 bg-[#e5e7eb] rounded-full flex items-center justify-center text-black hover:bg-gray-300 transition-all shadow-[0_4px_12px_rgba(0,0,0,0.08)] focus:outline-none"
+              aria-label={isPlaying ? "Pause carousel" : "Play carousel"}
+            >
+              {isPlaying ? (
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                </svg>
+              ) : (
+                <svg className="w-5 h-5 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              )}
+            </button>
           </div>
         </div>
       </div>

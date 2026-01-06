@@ -21,18 +21,20 @@ const App: React.FC = () => {
         
         <ExperienceHighlights />
 
-        {/* Project Grid Section */}
-        <section id="work" className="py-24 px-6 border-t border-gray-100">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-20">
-              {PROJECTS.map(project => (
-                <ProjectCard 
-                  key={project.id} 
-                  project={project} 
-                  onClick={setSelectedProject}
-                />
-              ))}
-            </div>
+        {/* Project Section - Google Marketing Style Grid */}
+        <section id="work" className="py-12 md:py-24 px-6 md:px-12">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+            {PROJECTS.map((project, index) => (
+              <ProjectCard 
+                key={project.id} 
+                project={project} 
+                // You can plug in an external URL here to override the constant:
+                // imageUrl="https://your-external-link.com/image.jpg"
+                imageUrl={project.imageUrl}
+                index={index}
+                onClick={setSelectedProject}
+              />
+            ))}
           </div>
         </section>
 

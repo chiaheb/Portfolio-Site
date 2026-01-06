@@ -23,7 +23,7 @@ const Contact: React.FC = () => {
           </div>
         </div>
         <div className="mt-12 flex flex-col md:flex-row justify-between text-sm text-gray-400 gap-4">
-          <p>© 2026 Brian Chia. All rights reserved.</p>
+          <p>Brian Chia © 2026</p>
         </div>
       </div>
     </footer>

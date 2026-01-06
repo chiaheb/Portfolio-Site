@@ -12,40 +12,17 @@ const CharacterGraphic: React.FC<{ item: HighlightItem }> = ({ item }) => {
 
   if (imageUrl) {
     return (
-      <div className="w-full h-full flex items-center justify-center">
+      <div className="w-full h-full flex items-center justify-start">
         <img 
           src={imageUrl} 
           alt={item.title} 
-          className="w-full h-full object-contain"
+          className="w-full h-full object-contain object-left"
           onError={(e) => {
             console.warn(`Failed to load image for ${type}: ${imageUrl}. Falling back to SVG.`);
-            // Optionally, we could hide the broken image and let the component fall through to SVG
             (e.target as HTMLImageElement).style.display = 'none';
           }}
         />
       </div>
-    );
-  }
-
-  // Fallback SVGs if no imageUrl is provided or if it fails to load
-  if (type === 'fast') {
-    return (
-      <svg viewBox="0 0 200 200" className="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g transform="translate(40, 60)">
-          <path d="M60 20C90 20 120 40 120 80C120 120 90 140 60 140C30 140 10 120 10 80C10 40 30 20 60 20Z" stroke="black" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
-          <circle cx="45" cy="70" r="3" fill="#1a1a1a" />
-          <circle cx="85" cy="80" r="3" fill="#1a1a1a" />
-          <g transform="translate(-15, 30) rotate(-30)">
-            <path d="M10 0V40C10 50 20 60 40 60C60 60 70 50 70 40V0" stroke="black" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
-            <line x1="10" y1="12" x2="25" y2="12" stroke="black" strokeWidth="3" />
-            <line x1="55" y1="12" x2="70" y2="12" stroke="black" strokeWidth="3" />
-          </g>
-        </g>
-        <g transform="translate(30, 20)">
-          <path d="M40 0C40 15 55 20 55 20C55 20 40 25 40 40C40 25 25 20 25 20C25 20 40 15 40 0Z" stroke="black" strokeWidth="3" strokeLinejoin="round" />
-          <path d="M10 35C10 45 20 48 20 48C20 48 10 52 10 62C10 52 0 48 0 48C0 48 10 45 10 35Z" stroke="black" strokeWidth="3" strokeLinejoin="round" />
-        </g>
-      </svg>
     );
   }
 
@@ -96,22 +73,21 @@ const CharacterGraphic: React.FC<{ item: HighlightItem }> = ({ item }) => {
 };
 
 const ExperienceHighlights: React.FC = () => {
-  // CONFIGURATION: Using your local imageassets folder
   const highlights: HighlightItem[] = [
     {
-      title: "move fast to capture value quickly",
+      title: "move fast to capture value early",
       type: "fast",
-      imageUrl: "imageassets/Carousel1.svg"
+      imageUrl: "https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/CarouselBH2.svg"
     },
     {
       title: "go from viable to scalable",
       type: "scale",
-      imageUrl: "imageassets/Carousel2.svg" // Placeholder path for your next asset
+      imageUrl: "https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/CarouselBH1.svg" 
     },
     {
       title: "create design consistency",
       type: "consistency",
-      imageUrl: "imageassets/Carousel3.svg" // Placeholder path for your next asset
+      imageUrl: "https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/Carousel3.svg" 
     }
   ];
 
@@ -138,7 +114,8 @@ const ExperienceHighlights: React.FC = () => {
 
   useEffect(() => {
     resetTimeout();
-    timeoutRef.current = window.setTimeout(nextSlide, 5000);
+    // Reduced from 5000 to 3000 for faster auto-scrolling
+    timeoutRef.current = window.setTimeout(nextSlide, 3000);
 
     return () => {
       resetTimeout();
@@ -154,37 +131,37 @@ const ExperienceHighlights: React.FC = () => {
     <section className="pb-24 px-6 overflow-hidden">
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
-          <h2 className="text-xl md:text-2xl text-gray-500 font-light leading-relaxed max-w-3xl">
-            We'd work well together if you're looking to
+          <h2 className="text-xl md:text-2xl text-gray-500 font-light leading-relaxed max-w-3xl italic">
+            I help product and business teams to
           </h2>
         </div>
         
         <div className="relative">
-          <div className="min-h-[300px] md:min-h-[240px]">
+          <div className="min-h-[300px] md:min-h-[360px]">
             {highlights.map((item, index) => (
               <div
                 key={index}
-                className={`transition-all duration-700 ease-in-out absolute top-0 left-0 w-full ${
+                className={`transition-all duration-500 ease-in-out absolute top-0 left-0 w-full ${
                   index === activeIndex 
                     ? "opacity-100 translate-y-0 pointer-events-auto" 
                     : "opacity-0 translate-y-8 pointer-events-none"
                 }`}
               >
-                <div className="flex items-center gap-4 md:gap-16">
-                  <div className="w-32 md:w-48 shrink-0">
-                    <CharacterGraphic item={item} />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-3xl md:text-5xl font-semibold leading-tight text-black tracking-tight">
+                <div className="flex flex-col gap-4 md:gap-6 items-start justify-start">
+                  <div className="w-full">
+                    <h3 className="text-4xl md:text-6xl font-semibold leading-tight text-black tracking-tight max-w-none md:max-w-5xl">
                       {item.title}
                     </h3>
+                  </div>
+                  <div className="w-40 md:w-60 h-40 md:h-52 shrink-0">
+                    <CharacterGraphic item={item} />
                   </div>
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="mt-8 md:mt-12 flex items-center space-x-8">
+          <div className="mt-4 md:mt-12 flex items-center space-x-8">
             <div className="flex items-center space-x-6">
               <button 
                 onClick={prevSlide}

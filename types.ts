@@ -1,8 +1,15 @@
 
+export interface ProjectChapter {
+  title: string;
+  content: string;
+  imageUrl?: string;
+  template?: 'casestudyleft' | 'casestudyright' | 'casestudy spread';
+  bgColor?: string;
+}
+
 export interface Project {
   id: string;
   title: string;
-  category: string;
   description: string;
   longDescription: string;
   imageUrl: string;      // Hero image for the modal
@@ -10,6 +17,9 @@ export interface Project {
   tags: string[];
   role: string;
   timeline: string;
+  platform: string;      // Mobile, Web, Desktop, etc.
+  chapters?: ProjectChapter[];
+  bgColor?: string; // Background color for the intro section
 }
 
 export interface GeneratedBrief {

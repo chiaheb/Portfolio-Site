@@ -87,7 +87,7 @@ const ExperienceHighlights: React.FC = () => {
     {
       title: "turn complex into intuitive",
       type: "consistency",
-      imageUrl: "https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/Carousel3.svg" 
+      imageUrl: "https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/CarouselBH3.svg" 
     }
   ];
 
@@ -132,10 +132,10 @@ const ExperienceHighlights: React.FC = () => {
   };
 
   return (
-    <section className="pb-24 px-6 overflow-hidden">
+    <section className="pb-20 md:pb-32 px-6 overflow-hidden">
       <div className="max-w-6xl mx-auto">
-        {/* Main Experience Container - Softened Shadow */}
-        <div className="bg-white rounded-[2.5rem] md:rounded-[3.5rem] p-8 md:p-16 lg:p-20 shadow-[0_2px_10px_rgba(0,0,0,0.03)] border border-gray-100 overflow-hidden">
+        {/* Main Experience Container */}
+        <div className="bg-white rounded-[2.5rem] md:rounded-[3.5rem] p-8 md:p-16 lg:p-20 shadow-[0_2px_10px_rgba(0,0,0,0.03)] overflow-hidden">
           <div className="mb-6 md:mb-8">
             <h2 className="text-xl md:text-2xl text-gray-400 font-light leading-relaxed max-w-3xl italic">
               I help product and business teams to
@@ -143,7 +143,6 @@ const ExperienceHighlights: React.FC = () => {
           </div>
           
           <div className="relative">
-            {/* Main Slides Container - Significantly tightened min-height for mobile */}
             <div className="relative min-h-[240px] md:min-h-[320px]">
               {highlights.map((item, index) => {
                 const isActive = index === activeIndex;
@@ -186,9 +185,7 @@ const ExperienceHighlights: React.FC = () => {
               })}
             </div>
 
-            {/* Navigation Controls - Minimized margin-top to sit tight to image on mobile */}
             <div className="mt-1 md:mt-6 flex items-center justify-start space-x-6">
-              {/* Dots Pill - Minimal Shadow */}
               <div className="bg-[#f3f4f6] px-8 py-4 rounded-full flex items-center space-x-5 h-12 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
                 {highlights.map((_, index) => (
                   <button
@@ -199,7 +196,7 @@ const ExperienceHighlights: React.FC = () => {
                   >
                     <div className={`transition-all duration-500 rounded-full ${
                       index === activeIndex 
-                        ? "bg-black w-10 h-[3px]" 
+                        ? "bg-black w-10 h-1" 
                         : "bg-black/20 group-hover:bg-black/40 w-[5px] h-[5px]"
                     }`} />
                     <div className="absolute inset-0 -m-2" />
@@ -207,7 +204,6 @@ const ExperienceHighlights: React.FC = () => {
                 ))}
               </div>
 
-              {/* Play/Pause Button - Minimal Shadow */}
               <button 
                 onClick={togglePlay}
                 className="w-12 h-12 bg-[#f3f4f6] rounded-full flex items-center justify-center text-black hover:bg-gray-200 transition-all shadow-[0_2px_8px_rgba(0,0,0,0.04)] focus:outline-none"

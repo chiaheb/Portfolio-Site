@@ -2,7 +2,8 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { GeneratedBrief } from "../types";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+// Always use process.env.API_KEY directly for client initialization.
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 export const generateUXBrief = async (prompt: string): Promise<GeneratedBrief> => {
   const response = await ai.models.generateContent({

@@ -155,7 +155,7 @@ const ScrollSection: React.FC<{ chapter: ProjectChapter }> = ({ chapter }) => {
                 key={idx} 
                 className="flex-shrink-0 w-[88vw] md:w-[60vw] lg:w-[45vw] min-h-[420px] md:min-h-[600px] snap-start relative bg-white rounded-[3rem] md:rounded-[4.5rem] overflow-hidden flex flex-col group border border-gray-100 shadow-sm"
               >
-                {/* Text content - Updated md:pb-8 to md:pb-16 to match the top padding (md:pt-16) for consistency */}
+                {/* Text content - Consistent padding md:pt-16 and md:pb-16 */}
                 <div className="pt-10 px-10 pb-10 md:pt-16 md:px-16 md:pb-16 space-y-2 md:space-y-4">
                   <h4 className="text-2xl md:text-4xl font-medium text-black tracking-tight leading-[1.1]">
                     {item.title}
@@ -165,12 +165,12 @@ const ScrollSection: React.FC<{ chapter: ProjectChapter }> = ({ chapter }) => {
                   </p>
                 </div>
 
-                {/* Image content - Maintained scaling but ensured origin and object alignment balance the extra padding */}
+                {/* Image content - Fixed gap issue by using object-cover and top-left alignment for all views */}
                 <div className="flex-1 relative w-full overflow-hidden pl-10 md:pl-16 pr-0">
                   <img 
                     src={item.imageUrl} 
                     alt={item.title} 
-                    className="w-full h-full object-cover md:object-contain object-left-top md:object-left-bottom transition-transform duration-700 scale-[1.15] md:scale-100 origin-top-left md:origin-bottom-left group-hover:scale-[1.2] md:group-hover:scale-[1.03]" 
+                    className="w-full h-full object-cover object-left-top transition-transform duration-700 scale-[1.15] md:scale-[1.05] origin-top-left group-hover:scale-[1.2] md:group-hover:scale-[1.1]" 
                   />
                 </div>
               </div>

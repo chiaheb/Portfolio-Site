@@ -103,7 +103,7 @@ export const PROJECTS: Project[] = [
         ]
       },
       {
-        title: "The Vision",
+        title: "Designing for autonomy, not abandonment",
         template: "casestudy spread",
         imageUrl: PROJECT_ASSETS['Direct'].chapters['The Vision'],
         bgImageUrl: 'https://images.unsplash.com/photo-1557683316-973673baf926?auto=format&fit=crop&q=40&w=1500', 

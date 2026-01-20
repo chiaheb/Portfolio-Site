@@ -7,7 +7,7 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react()],
     // Base must be set to relative './' or the repository name for GitHub Pages to resolve assets correctly
-    base: './',
+    base: '/Portfolio-Site/',
     define: {
       // Polyfill process.env for the Google GenAI SDK usage
       'process.env.API_KEY': JSON.stringify(env.API_KEY)

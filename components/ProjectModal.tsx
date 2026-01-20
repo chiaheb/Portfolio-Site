@@ -35,17 +35,27 @@ const renderContent = (text: string) => {
   });
 };
 
+// Helper to render text with manual <br/> breaks
+const renderTextWithBreaks = (text: string) => {
+  return text.split('<br/>').map((part, i, arr) => (
+    <React.Fragment key={i}>
+      {part}
+      {i < arr.length - 1 && <br />}
+    </React.Fragment>
+  ));
+};
+
 // Shared title rendering function to maintain consistency across different chapter templates
 const renderTitle = (title: string, customStyle?: string) => {
   const lines = title.split('\n');
   const baseStyle = customStyle || HEADER_STYLE;
-  if (lines.length === 1) return <h3 className={baseStyle}>{title}</h3>;
+  if (lines.length === 1) return <h3 className={baseStyle}>{renderTextWithBreaks(title)}</h3>;
   return (
     <h3 className={baseStyle}>
-      {lines[0]}
+      {renderTextWithBreaks(lines[0])}
       <br />
       <span className="bg-gradient-to-b from-[#4b5563] to-[#9ca3af] bg-clip-text text-transparent inline-block pb-1">
-        {lines[1]}
+        {renderTextWithBreaks(lines[1])}
       </span>
     </h3>
   );
@@ -250,6 +260,9 @@ const ChapterItem: React.FC<{ chapter: ProjectChapter }> = ({ chapter }) => {
   }
 
   if (template === 'casestudy spread') {
+    // Normalize items to an array (support existing data with single image or new array)
+    const items = chapter.spreadItems || (imageUrl ? [{ imageUrl, bgImageUrl, bgColor }] : []);
+
     return (
       <div className="w-full bg-white relative overflow-hidden">
         <div className={`${SECTION_CONTAINER} py-16 md:py-32 relative z-10`}>
@@ -262,16 +275,29 @@ const ChapterItem: React.FC<{ chapter: ProjectChapter }> = ({ chapter }) => {
             </div>
           </div>
         </div>
-        {imageUrl && (
-          <div className="w-full relative py-8 md:py-24 flex justify-center items-center overflow-hidden">
-            <BackgroundMedia 
-              imageUrl={bgImageUrl} 
-              color={bgColor} 
-              className="inset-0" 
-            />
-            <div className={`relative z-10 w-full ${SECTION_CONTAINER} flex justify-center`}>
-               <img src={imageUrl} alt={title} className="w-full h-auto object-contain" />
-            </div>
+        
+        {items.length > 0 && (
+          <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+             {items.map((item, idx) => {
+               const ContentWrapper = item.link ? 'a' : 'div';
+               const wrapperProps = item.link ? {
+                  href: item.link,
+                  target: "_blank",
+                  rel: "noopener noreferrer",
+                  className: "relative z-10 w-full h-full p-8 md:p-12 flex items-center justify-center group cursor-pointer block"
+               } : {
+                  className: "relative z-10 w-full h-full p-8 md:p-12 flex items-center justify-center group"
+               };
+
+               return (
+                <div key={idx} className="relative w-full aspect-square flex items-center justify-center overflow-hidden">
+                  <BackgroundMedia imageUrl={item.bgImageUrl} color={item.bgColor} className="inset-0" />
+                  <ContentWrapper {...wrapperProps}>
+                     <img src={item.imageUrl} alt="" className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105" />
+                  </ContentWrapper>
+                </div>
+               );
+             })}
           </div>
         )}
       </div>

@@ -5,6 +5,13 @@ export interface CarouselItem {
   caption: string;
 }
 
+export interface SpreadItem {
+  imageUrl: string;
+  bgImageUrl?: string;
+  bgColor?: string;
+  link?: string;
+}
+
 export interface ProjectChapter {
   title: string;
   content: string;
@@ -13,6 +20,7 @@ export interface ProjectChapter {
   bgColor?: string;
   bgImageUrl?: string;
   carouselItems?: CarouselItem[];
+  spreadItems?: SpreadItem[];
 }
 
 export interface Project {

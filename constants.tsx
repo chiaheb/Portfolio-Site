@@ -103,11 +103,23 @@ export const PROJECTS: Project[] = [
         ]
       },
       {
-        title: "Designing for autonomy, not abandonment",
+        title: "Designing for autonomy,<br/>not abandonment\n(The solution)",
         template: "casestudy spread",
-        imageUrl: PROJECT_ASSETS['Direct'].chapters['The Vision'],
-        bgImageUrl: 'https://images.unsplash.com/photo-1557683316-973673baf926?auto=format&fit=crop&q=40&w=1500', 
-        content: "We introduced 'Direct Flows'. Instead of manual transfers, users set rules based on lifestyle triggers. Coffee purchase? 50 cents goes to your 'Travel' flow automatically. It's banking on autopilot."
+        content: "We introduced 'Direct Flows'. Instead of manual transfers, users set rules based on lifestyle triggers. Coffee purchase? 50 cents goes to your 'Travel' flow automatically. It's banking on autopilot.",
+        spreadItems: [
+          {
+            imageUrl: 'https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/direct-wireframe-img1-rev1.png',
+            bgImageUrl: 'https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/direct-wireframe-bg1-rev2.webm'
+          },
+          {
+            imageUrl: 'https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/direct-wireframe-img2-rev1.png',
+            bgImageUrl: 'https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/direct-wireframe-bg2-rev2.webm'
+          },
+          {
+            imageUrl: 'https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/direct-wireframe-img3-rev1.png',
+            bgImageUrl: 'https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/direct-wireframe-bg3-rev1.webm'
+          }
+        ]
       }
     ]
   },
@@ -137,9 +149,21 @@ export const PROJECTS: Project[] = [
       {
         title: "Designing for Low-Fi",
         template: "casestudy spread",
-        imageUrl: PROJECT_ASSETS['Assignor'].chapters['Designing for Low-Fi'],
-        bgImageUrl: 'https://images.unsplash.com/photo-1451187534963-11d967f98ad4?auto=format&fit=crop&q=40&w=1500', 
-        content: "We optimized the interface to prioritize critical diagnostic text and static images over video when connection drops. A 'low-bandwidth' mode was developed that uses AI to upscale medical imagery locally on the doctor's device."
+        content: "We optimized the interface to prioritize critical diagnostic text and static images over video when connection drops. A 'low-bandwidth' mode was developed that uses AI to upscale medical imagery locally on the doctor's device.",
+        spreadItems: [
+          {
+            imageUrl: PROJECT_ASSETS['Assignor'].chapters['Designing for Low-Fi'],
+            bgImageUrl: 'https://images.unsplash.com/photo-1451187534963-11d967f98ad4?auto=format&fit=crop&q=40&w=1500'
+          },
+          {
+            imageUrl: PROJECT_ASSETS['Assignor'].chapters['The Rural Gap'],
+            bgImageUrl: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=1200'
+          },
+          {
+            imageUrl: PROJECT_ASSETS['Assignor'].hero,
+            bgImageUrl: 'https://images.unsplash.com/photo-1557683311-eac922347aa1?auto=format&fit=crop&q=40&w=1500'
+          }
+        ]
       }
     ]
   },
@@ -187,9 +211,21 @@ export const PROJECTS: Project[] = [
       {
         title: "Adaptive Minimalism",
         template: "casestudy spread",
-        imageUrl: PROJECT_ASSETS['FIX.CX'].chapters['Adaptive Minimalism'],
-        bgImageUrl: 'https://images.unsplash.com/photo-1483546416299-130026b8b292?auto=format&fit=crop&q=40&w=1500', 
-        content: "Using subtle signals (typing speed, cursor movement, or integrated EEG headsets), the UI fades away until only the text remains. As the user slows down, navigation elements gently reappear."
+        content: "Using subtle signals (typing speed, cursor movement, or integrated EEG headsets), the UI fades away until only the text remains. As the user slows down, navigation elements gently reappear.",
+        spreadItems: [
+           {
+            imageUrl: PROJECT_ASSETS['FIX.CX'].chapters['Adaptive Minimalism'],
+            bgImageUrl: 'https://images.unsplash.com/photo-1483546416299-130026b8b292?auto=format&fit=crop&q=40&w=1500'
+           },
+           {
+             imageUrl: PROJECT_ASSETS['FIX.CX'].hero,
+             bgImageUrl: 'https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?auto=format&fit=crop&q=40&w=1500'
+           },
+           {
+             imageUrl: PROJECT_ASSETS['FIX.CX'].thumbnail,
+             bgImageUrl: 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2000'
+           }
+        ]
       }
     ]
   }

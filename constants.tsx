@@ -21,7 +21,7 @@ export const PROJECT_ASSETS = {
     }
   },
   'Assignor': {
-    thumbnail: 'https://images.unsplash.com/photo-1530497610245-94d3c16cda28?q=80&w=2000',
+    thumbnail: 'https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/portfolio-cover-placeholder-rev2.png',
     hero: 'https://images.unsplash.com/photo-1586772002130-b0f3daa6288b?auto=format&fit=crop&q=80&w=2000',
     banner: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=2000',
     chapters: {
@@ -30,7 +30,7 @@ export const PROJECT_ASSETS = {
     }
   },
   'Floor View': {
-    thumbnail: 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e12?q=80&w=2000',
+    thumbnail: 'https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/portfolio-cover-placeholder-rev2.png',
     hero: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=2000',
     banner: 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e12?auto=format&fit=crop&q=80&w=2000',
     chapters: {
@@ -38,7 +38,7 @@ export const PROJECT_ASSETS = {
     }
   },
   'FIX.CX': {
-    thumbnail: 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2000',
+    thumbnail: 'https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/portfolio-cover-placeholder-rev2.png',
     hero: 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2000',
     banner: 'https://images.unsplash.com/photo-1497032628192-86f99bcd76bc?auto=format&fit=crop&get=80&w=2000',
     chapters: {
@@ -128,7 +128,7 @@ export const PROJECTS: Project[] = [
   {
     id: '2',
     title: 'Assignor',
-    description: 'A comprehensive telemedicine platform connecting specialists with rural patients.',
+    description: "Coming soon - we're working on it",
     longDescription: 'HealSync bridges the gap in rural healthcare by simplifying the diagnostic data flow between clinics and specialists.',
     coverImageUrl: PROJECT_ASSETS['Assignor'].thumbnail,
     imageUrl: PROJECT_ASSETS['Assignor'].hero,
@@ -172,7 +172,7 @@ export const PROJECTS: Project[] = [
   {
     id: '3',
     title: 'Floor View',
-    description: 'A curated marketplace for sustainable and ethically sourced lifestyle products.',
+    description: "Coming soon - we're working on it",
     longDescription: 'Ethos focuses on radical transparency and the environmental cost of shopping.',
     coverImageUrl: PROJECT_ASSETS['Floor View'].thumbnail,
     imageUrl: PROJECT_ASSETS['Floor View'].hero,
@@ -197,7 +197,7 @@ export const PROJECTS: Project[] = [
   {
     id: '4',
     title: 'FIX.CX',
-    description: 'A minimal workspace for writers and researchers that blocks distractions using neuro-feedback.',
+    description: "Coming soon - we're working on it",
     longDescription: 'FocusSpace uses a calm-tech approach to optimize cognitive load for intensive creative work.',
     coverImageUrl: PROJECT_ASSETS['FIX.CX'].thumbnail,
     imageUrl: PROJECT_ASSETS['FIX.CX'].hero,

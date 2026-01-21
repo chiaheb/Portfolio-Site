@@ -3,8 +3,8 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  // Base must be set to relative './' or the repository name for GitHub Pages to resolve assets correctly
-  base: '/Portfolio-Site/',
+  // Base set to './' allows the site to be deployed to any path (e.g. username.github.io/repo-name or custom domain)
+  base: './',
   build: {
     outDir: 'dist',
     sourcemap: false

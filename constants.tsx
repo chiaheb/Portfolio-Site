@@ -128,7 +128,7 @@ export const PROJECTS: Project[] = [
   {
     id: '2',
     title: 'Assignor',
-    description: "Coming soon - work in progress",
+    description: "Coming soon - design takes a little time, even with AI",
     longDescription: 'HealSync bridges the gap in rural healthcare by simplifying the diagnostic data flow between clinics and specialists.',
     coverImageUrl: PROJECT_ASSETS['Assignor'].thumbnail,
     imageUrl: PROJECT_ASSETS['Assignor'].hero,
@@ -172,7 +172,7 @@ export const PROJECTS: Project[] = [
   {
     id: '3',
     title: 'Floor View',
-    description: "Coming soon - work in progress",
+    description: "Coming soon - design takes a little time, even with AI",
     longDescription: 'Ethos focuses on radical transparency and the environmental cost of shopping.',
     coverImageUrl: PROJECT_ASSETS['Floor View'].thumbnail,
     imageUrl: PROJECT_ASSETS['Floor View'].hero,
@@ -197,7 +197,7 @@ export const PROJECTS: Project[] = [
   {
     id: '4',
     title: 'FIX.CX',
-    description: "Coming soon - work in progress",
+    description: "Coming soon - design takes a little time, even with AI",
     longDescription: 'FocusSpace uses a calm-tech approach to optimize cognitive load for intensive creative work.',
     coverImageUrl: PROJECT_ASSETS['FIX.CX'].thumbnail,
     imageUrl: PROJECT_ASSETS['FIX.CX'].hero,

@@ -10,36 +10,73 @@ interface ProjectModalProps {
 const HEADER_STYLE = "text-2xl md:text-4xl lg:text-5xl text-black leading-[1.3] md:leading-[1.2] lg:leading-[1.3] font-medium tracking-tight";
 const BODY_STYLE = "text-xl md:text-2xl lg:text-2xl text-gray-900/80 leading-[1.7] font-normal";
 
-// Standard container for horizontal alignment across sections
-const SECTION_CONTAINER = "max-w-[1500px] mx-auto px-8 md:px-12 lg:px-16";
+// Standard container for horizontal alignment across sections - Updated for better responsive padding on medium/large screens
+const SECTION_CONTAINER = "max-w-[1500px] mx-auto px-6 md:px-20 lg:px-24 xl:px-32";
 
-// Shared content rendering function to handle markdown-like bolding
-const renderContent = (text: string) => {
-  return text.split('\n').map((line, i) => {
-    const parts = line.split(/(\*\*.*?\*\*)/g);
-    return (
-      <React.Fragment key={i}>
-        {parts.map((part, j) => {
-          if (part.startsWith('**') && part.endsWith('**')) {
-            return (
-              <strong key={j} className="font-bold">
-                {part.slice(2, -2)}
-              </strong>
-            );
-          }
-          return part;
-        })}
-        {i < text.split('\n').length - 1 && <br />}
-      </React.Fragment>
-    );
+// Shared text processor for inline formatting (bold and strikethrough)
+const processInlineFormatting = (str: string) => {
+  const parts = str.split(/(\*\*.*?\*\*|~~.*?~~)/g);
+  return parts.map((part, j) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={j} className="font-bold text-gray-900">{part.slice(2, -2)}</strong>;
+    }
+    if (part.startsWith('~~') && part.endsWith('~~')) {
+      return <span key={j} className="line-through text-gray-400 opacity-70 decoration-2 decoration-current">{part.slice(2, -2)}</span>;
+    }
+    return part;
   });
 };
 
-// Helper to render text with manual <br/> breaks
+// Shared content rendering function to handle markdown-like bolding, strikethrough, and lists
+const renderContent = (text: string) => {
+  const lines = text.split('\n');
+  const result: React.ReactNode[] = [];
+  let currentList: React.ReactNode[] = [];
+
+  const flushList = () => {
+    if (currentList.length > 0) {
+      result.push(
+        <ul key={`list-${result.length}`} className="list-disc pl-5 md:pl-6 space-y-2 my-4 marker:text-gray-400">
+          {currentList}
+        </ul>
+      );
+      currentList = [];
+    }
+  };
+
+  lines.forEach((line, i) => {
+    const trimmed = line.trim();
+    if (trimmed.startsWith('- ')) {
+      currentList.push(
+        <li key={`li-${i}`} className="pl-1 md:pl-2">
+          {processInlineFormatting(trimmed.substring(2))}
+        </li>
+      );
+    } else {
+      flushList();
+      if (trimmed === '') {
+        if (i < lines.length - 1) result.push(<br key={`br-${i}`} />);
+      } else {
+        result.push(
+          <React.Fragment key={`line-${i}`}>
+            {processInlineFormatting(line)}
+            {/* Add break if next line is not list and we are not at end */}
+            {i < lines.length - 1 && !lines[i+1].trim().startsWith('- ') && <br />}
+          </React.Fragment>
+        );
+      }
+    }
+  });
+  flushList();
+  
+  return result;
+};
+
+// Helper to render text with manual <br/> breaks and inline formatting
 const renderTextWithBreaks = (text: string) => {
   return text.split('<br/>').map((part, i, arr) => (
     <React.Fragment key={i}>
-      {part}
+      {processInlineFormatting(part)}
       {i < arr.length - 1 && <br />}
     </React.Fragment>
   ));
@@ -150,8 +187,11 @@ const ScrollSection: React.FC<{ chapter: ProjectChapter }> = ({ chapter }) => {
   return (
     <div className="w-full py-16 md:py-32 bg-[#fafafa]">
       <div className={SECTION_CONTAINER}>
-        <div className="mb-12 md:mb-16 space-y-6 max-w-3xl">
+        <div className="mb-24 md:mb-32 space-y-6 max-w-3xl">
           {renderTitle(chapter.title)}
+          {chapter.content && (
+            <div className={BODY_STYLE}>{renderContent(chapter.content)}</div>
+          )}
         </div>
 
         <div className="relative">
@@ -213,9 +253,10 @@ const ScrollSection: React.FC<{ chapter: ProjectChapter }> = ({ chapter }) => {
           </div>
         </div>
 
-        {chapter.content && (
-          <div className="mt-12 md:mt-16 max-w-3xl">
-            <p className={BODY_STYLE}>{renderContent(chapter.content)}</p>
+        {/* Secondary Body Text Section */}
+        {chapter.secondaryContent && (
+          <div className="mt-12 md:mt-24 space-y-6 max-w-3xl">
+            <div className={BODY_STYLE}>{renderContent(chapter.secondaryContent)}</div>
           </div>
         )}
       </div>
@@ -224,7 +265,24 @@ const ScrollSection: React.FC<{ chapter: ProjectChapter }> = ({ chapter }) => {
 };
 
 const ChapterItem: React.FC<{ chapter: ProjectChapter }> = ({ chapter }) => {
-  const { title, content, imageUrl, template, bgColor, bgImageUrl } = chapter;
+  const { title, content, imageUrl, template, bgColor, bgImageUrl, mediaWidth } = chapter;
+
+  // Moved up to be available for all templates
+  const getMediaStyle = () => {
+    if (!mediaWidth) return {};
+    if (typeof mediaWidth === 'string') {
+      return {
+        '--mw-mobile': mediaWidth,
+        '--mw-desktop': mediaWidth
+      } as React.CSSProperties;
+    }
+    return {
+      '--mw-mobile': mediaWidth.mobile || '100%',
+      '--mw-desktop': mediaWidth.desktop || mediaWidth.mobile || '100%'
+    } as React.CSSProperties;
+  };
+
+  const mediaStyle = getMediaStyle();
 
   if (template === 'casestudyscroll') {
     return <ScrollSection chapter={chapter} />;
@@ -233,49 +291,74 @@ const ChapterItem: React.FC<{ chapter: ProjectChapter }> = ({ chapter }) => {
   if (template === 'casestudyquote') {
     const isBgDark = bgColor === '#1a1a1a' || bgColor === 'black';
     return (
-      <div className="w-full flex flex-col bg-white">
+      <div className="w-full flex flex-col bg-white overflow-hidden">
         {/* Quote/Text Section - Positioned above the image with reduced bottom padding */}
         <div 
           className="w-full pt-16 pb-8 md:pt-32 md:pb-12 flex items-center justify-center text-center px-8 md:px-12"
           style={{ backgroundColor: bgColor || '#f9fafb' }}
         >
           <div className="max-w-[1100px]">
-            <p className={`text-2xl md:text-4xl lg:text-5xl font-medium leading-[1.35] tracking-tight ${isBgDark ? 'text-white' : 'text-black'}`}>
+            <div className={`text-2xl md:text-4xl lg:text-5xl font-medium leading-[1.35] tracking-tight ${isBgDark ? 'text-white' : 'text-black'}`}>
               {renderContent(content)}
-            </p>
+            </div>
           </div>
         </div>
 
         {/* Media Section - Below the quote */}
         {bgImageUrl && (
-          <div className="w-full relative overflow-hidden aspect-[16/9] md:aspect-[21/9] bg-gray-50">
-            <BackgroundMedia 
-              imageUrl={bgImageUrl} 
-              className="inset-0" 
-            />
+          <div 
+            className="w-full pb-6 md:pb-12 flex justify-center items-center"
+            style={{ backgroundColor: bgColor || '#f9fafb' }}
+          >
+             {/* Unified Responsive Media View */}
+             <div className="w-full flex justify-center items-center px-0 md:px-0">
+               {isVideo(bgImageUrl) ? (
+                 <video 
+                   autoPlay 
+                   loop 
+                   muted 
+                   playsInline 
+                   className="h-auto object-contain responsive-media"
+                   style={{ 
+                     clipPath: 'inset(2px 0 0 0)',
+                     ...mediaStyle
+                   }}
+                 >
+                   <source src={bgImageUrl} type={`video/${bgImageUrl.split('.').pop()}`} />
+                 </video>
+               ) : (
+                 <img 
+                   src={bgImageUrl} 
+                   alt="Case study visual" 
+                   className="h-auto object-contain responsive-media"
+                   style={{ 
+                    clipPath: 'inset(2px 0 0 0)',
+                    ...mediaStyle 
+                   }}
+                 />
+               )}
+            </div>
           </div>
         )}
       </div>
     );
   }
 
-  if (template === 'casestudy spread') {
+  if (template === 'casestudyspread') {
     // Normalize items to an array (support existing data with single image or new array)
     const items = chapter.spreadItems || (imageUrl ? [{ imageUrl, bgImageUrl, bgColor }] : []);
 
     return (
       <div className="w-full bg-white relative overflow-hidden">
-        <div className={`${SECTION_CONTAINER} py-16 md:py-32 relative z-10`}>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-24">
-            <div className="lg:col-span-1">
-              <div className="max-w-3xl space-y-4 md:space-y-6">
-                {renderTitle(title)}
-                <p className={BODY_STYLE}>{renderContent(content)}</p>
-              </div>
-            </div>
-          </div>
-        </div>
         
+        {/* Title Section - Top */}
+        <div className={`${SECTION_CONTAINER} pt-16 md:pt-32 pb-8 md:pb-12 relative z-10`}>
+           <div className="max-w-3xl space-y-4 md:space-y-6">
+              {renderTitle(title)}
+           </div>
+        </div>
+
+        {/* Images Grid - Middle */}
         {items.length > 0 && (
           <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
              {items.map((item, idx) => {
@@ -293,13 +376,28 @@ const ChapterItem: React.FC<{ chapter: ProjectChapter }> = ({ chapter }) => {
                 <div key={idx} className="relative w-full aspect-square flex items-center justify-center overflow-hidden">
                   <BackgroundMedia imageUrl={item.bgImageUrl} color={item.bgColor} className="inset-0" />
                   <ContentWrapper {...wrapperProps}>
-                     <img src={item.imageUrl} alt="" className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105" />
+                     <img 
+                       src={item.imageUrl} 
+                       alt="" 
+                       className="w-full h-full object-cover scale-110 md:scale-100 md:object-contain transition-transform duration-700 group-hover:scale-105" 
+                     />
                   </ContentWrapper>
                 </div>
                );
              })}
           </div>
         )}
+
+        {/* Content Section - Bottom */}
+        <div className={`${SECTION_CONTAINER} py-16 md:py-32 relative z-10`}>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-24">
+            <div className="lg:col-span-1">
+              <div className="max-w-3xl space-y-4 md:space-y-6">
+                <div className={BODY_STYLE}>{renderContent(content)}</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -307,23 +405,63 @@ const ChapterItem: React.FC<{ chapter: ProjectChapter }> = ({ chapter }) => {
   if (template === 'casestudyleft' || template === 'casestudyright') {
     const isTextOnLeft = template === 'casestudyleft';
     
+    // getMediaStyle removed from here as it is now at the top
+
     return (
       <div className={`w-full bg-white relative overflow-hidden flex flex-col-reverse ${isTextOnLeft ? 'lg:flex-row' : 'lg:flex-row-reverse'}`}>
-        <div className={`w-full lg:w-1/2 flex items-center ${isTextOnLeft ? 'lg:justify-end' : 'lg:justify-start'} pt-2 pb-16 md:pt-12 md:pb-32 lg:py-32 relative z-10 bg-white`}>
-           <div className={`w-full max-w-[750px] px-8 md:px-12 ${isTextOnLeft ? 'lg:pl-16 lg:pr-20' : 'lg:pr-16 lg:pl-20'} space-y-4 md:space-y-6`}>
-              {renderTitle(title)}
-              <p className={BODY_STYLE}>{renderContent(content)}</p>
+        {/* TEXT CONTAINER (Child 1) */}
+        <div className={`w-full lg:w-1/2 flex items-center ${isTextOnLeft ? 'lg:justify-end' : 'lg:justify-start'} pt-2 pb-16 md:pt-8 md:pb-32 lg:py-32 relative z-10 bg-white`}>
+           {/* Adjusted padding to bring text closer to center on large screens */}
+           <div className={`w-full max-w-[750px] px-6 md:px-20 ${isTextOnLeft ? 'lg:pl-20 lg:pr-4 xl:pl-32 xl:pr-10' : 'lg:pr-20 lg:pl-4 xl:pr-32 xl:pl-10'} space-y-4 md:space-y-6`}>
+              {/* Desktop Title - Hidden on mobile */}
+              <div className="hidden lg:block">
+                {renderTitle(title)}
+              </div>
+              <div className={BODY_STYLE}>{renderContent(content)}</div>
            </div>
         </div>
-        <div className={`w-full lg:w-1/2 relative flex items-center ${isTextOnLeft ? 'lg:justify-start' : 'lg:justify-end'} min-h-[250px] md:min-h-[450px] lg:min-h-0 pt-12 pb-2 md:py-24 lg:py-32`}>
+
+        {/* IMAGE CONTAINER (Child 2) */}
+        <div className={`w-full lg:w-1/2 relative flex flex-col justify-center items-center ${isTextOnLeft ? 'lg:items-start' : 'lg:items-end'} min-h-[250px] md:min-h-[450px] lg:min-h-0 pt-12 pb-2 md:pt-24 md:pb-12 lg:py-32`}>
            <BackgroundMedia 
              imageUrl={bgImageUrl} 
              color={bgColor} 
              className="inset-0" 
            />
-           <div className={`relative z-10 w-full ${isTextOnLeft ? 'lg:pl-20 lg:pr-16' : 'lg:pr-20 lg:pl-16'} px-8 md:px-16 flex justify-center items-center`}>
+           
+           {/* Mobile Title - Visible only on mobile, placed above image in flex-col */}
+           <div className="block lg:hidden w-full px-6 md:px-20 mb-8 relative z-10">
+             {renderTitle(title)}
+           </div>
+
+           {/* Adjusted padding to bring image closer to center on large screens */}
+           <div className={`relative z-10 w-full ${isTextOnLeft ? 'lg:pl-4 lg:pr-20 xl:pl-10 xl:pr-32' : 'lg:pr-4 lg:pl-20 xl:pr-10 xl:pl-32'} px-6 md:px-20 flex justify-center items-center`}>
              {imageUrl && (
-               <img src={imageUrl} alt={title} className="w-full h-auto object-contain" />
+               isVideo(imageUrl) ? (
+                 <video 
+                   autoPlay 
+                   loop 
+                   muted 
+                   playsInline 
+                   className="h-auto object-contain responsive-media"
+                   style={{ 
+                     clipPath: 'inset(5px 5px 5px 5px)',
+                     ...mediaStyle
+                   }}
+                 >
+                   <source src={imageUrl} type={`video/${imageUrl.split('.').pop()}`} />
+                 </video>
+               ) : (
+                 <img 
+                   src={imageUrl} 
+                   alt={title} 
+                   className="h-auto object-contain responsive-media"
+                   style={{ 
+                    clipPath: 'inset(5px 5px 5px 5px)',
+                    ...mediaStyle 
+                   }}
+                 />
+               )
              )}
            </div>
         </div>
@@ -338,7 +476,7 @@ const ChapterItem: React.FC<{ chapter: ProjectChapter }> = ({ chapter }) => {
           <div className="lg:col-span-1">
             <div className="space-y-6 md:space-y-8 max-w-3xl">
               {renderTitle(title)}
-              <p className={BODY_STYLE}>{renderContent(content)}</p>
+              <div className={BODY_STYLE}>{renderContent(content)}</div>
             </div>
           </div>
         </div>
@@ -484,6 +622,16 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) => {
           text-rendering: optimizeLegibility;
           -webkit-font-smoothing: antialiased;
           -moz-osx-font-smoothing: grayscale;
+        }
+        /* Responsive Media Width Logic */
+        .responsive-media {
+          width: var(--mw-mobile, 100%);
+          max-width: none;
+        }
+        @media (min-width: 768px) {
+          .responsive-media {
+            width: var(--mw-desktop, var(--mw-mobile, 100%));
+          }
         }
       `}</style>
     </div>

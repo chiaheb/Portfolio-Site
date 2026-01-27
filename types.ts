@@ -16,11 +16,13 @@ export interface ProjectChapter {
   title: string;
   content: string;
   imageUrl?: string;
-  template?: 'casestudyleft' | 'casestudyright' | 'casestudy spread' | 'casestudyquote' | 'casestudyscroll';
+  template?: 'casestudyleft' | 'casestudyright' | 'casestudyspread' | 'casestudyquote' | 'casestudyscroll';
   bgColor?: string;
   bgImageUrl?: string;
   carouselItems?: CarouselItem[];
   spreadItems?: SpreadItem[];
+  secondaryContent?: string;
+  mediaWidth?: string | { mobile?: string; desktop?: string };
 }
 
 export interface Project {

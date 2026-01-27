@@ -1,4 +1,3 @@
-
 import { Project } from './types';
 
 /**
@@ -8,9 +7,9 @@ import { Project } from './types';
  */
 export const PROJECT_ASSETS = {
   'Direct': {
-    thumbnail: 'https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/Directhero-narrow-rev3.png',
-    hero: 'https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/Directhero-wide-rev3.png',
-    banner: 'https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/Directbanner-01.png',
+    thumbnail: 'https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/Directhero-narrow-rev4.png',
+    hero: 'https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/Directhero-wide-rev4.png',
+    banner: 'https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/Directbanner-rev2.png',
     chapters: {
       'The calm before the scale': 'https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/directscaletest-rev4.png',
       'The bottleneck of success (The challenge)': 'https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/directbottletest-rev2.png',
@@ -63,7 +62,7 @@ export const PROJECTS: Project[] = [
     bannerImageUrl: PROJECT_ASSETS['Direct'].banner,
     tags: ['UX Research', 'Mobile Design', 'Visual Identity'],
     role: 'Lead Product Designer',
-    timeline: '4 Months',
+    timeline: '2 Months',
     platform: 'Mobile, Web',
     bgImageUrl: 'https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/background-move-test.webm', 
     chapters: [
@@ -78,12 +77,14 @@ export const PROJECTS: Project[] = [
         title: "A pivotal shift in strategy",
         template: "casestudyquote",
         bgImageUrl: 'https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/directspread-1-rev1.png', 
+        mediaWidth: { mobile: '150%', desktop: '85%' },
         content: "To function at scale, we needed to move from being our customers' hands to being their platform."
       },
       {
         title: "Value and dissatisfaction\n(The insight)",
         template: "casestudyscroll",
         content: "To transition our customers to a self-serve platform without diminishing the perceived value of our service, we needed to understand which tasks the customers valued and, crucially, which tasks they were **secretly dissatisfied with but relied on us for**.",
+        secondaryContent: "Our research revealed that customers were primarily dissatisfied with their lack of control over **easy access to information on their orders** (what they bought, where it was, how much it was), and access to a **quicker & more secure way to make payments** (outside of traditional offline bank transfers).",
         carouselItems: [
           {
             imageUrl: PROJECT_ASSETS['Direct'].chapters['Carousel 1'],
@@ -104,8 +105,8 @@ export const PROJECTS: Project[] = [
       },
       {
         title: "Designing for autonomy,<br/>not abandonment\n(The solution)",
-        template: "casestudy spread",
-        content: "We introduced 'Direct Flows'. Instead of manual transfers, users set rules based on lifestyle triggers. Coffee purchase? 50 cents goes to your 'Travel' flow automatically. It's banking on autopilot.",
+        template: "casestudyspread",
+        content: "The design strategy leveraged on these areas of dissatisfaction as the perfect candidates for self-serve features, where we:\n\n- Consolidated individual orders into a single platform\n- Prioritized key information, making them available at a glance\n- Introduced shipping details and real-time status trackers\n- Designed a secure payment journey with clear cost breakdowns",
         spreadItems: [
           {
             imageUrl: 'https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/direct-wireframe-img1-rev1.png',
@@ -118,6 +119,63 @@ export const PROJECTS: Project[] = [
           {
             imageUrl: 'https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/direct-wireframe-img3-rev1.png',
             bgImageUrl: 'https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/direct-wireframe-bg3-rev1.webm'
+          }
+        ]
+      },
+      {
+        title: "Growth Foundation",
+        template: "casestudyquote",
+        content: "We worked with internal teams and our customers to iterate on the features and usability.",
+        bgImageUrl: 'https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/direct-iteration-rev8.png',
+        mediaWidth: { mobile: '140%', desktop: '85%' }
+      },
+      {
+        title: "Scalable value delivered\n(The outcome)",
+        template: "casestudyleft",
+        imageUrl: 'https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/protowalkthrough-scene1-rev4.webm',
+        bgColor: '#ffffff',
+        mediaWidth: { mobile: '90%', desktop: '50%' },
+        content: "We built and launched a mobile-first platform that provided visibility and control anytime, anywhere.\n\nThe platform consolidated individual orders in a single place, and provided real-time visibility into any order's progress with a single tap."
+      },
+      {
+        title: "Onboarding",
+        template: "casestudyquote",
+        content: "A guided onboarding experience was added to reduce anxiety and ease customers onto the new self-serve features.",
+        bgImageUrl: 'https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/directresults-onboardspread-rev2.png',
+        mediaWidth: { mobile: '140%', desktop: '85%' }
+      },
+      {
+        title: "Replacing friction with clarity",
+        template: "casestudyright",
+        imageUrl: "https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/protowalkthrough-scene2-rev6.webm",
+        bgColor: "#ffffff",
+        mediaWidth: { mobile: '100%', desktop: '60%' },
+        content: "Using progressive disclosure to prevent overwhelming users, we designed a journey to provide reassuring clarity around the order and shipping details."
+      },
+      {
+        title: "Quick and ~~easy~~ trustworthy",
+        template: "casestudyleft",
+        imageUrl: "https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/protowalkthrough-scene3-rev2.webm",
+        mediaWidth: { mobile: '95%', desktop: '50%' },
+        bgColor: "#ffffff",
+        content: "With the the issues of accessibility and transparency addressed, we looked to solve the friciton of paying for orders by designing a payments journey.\n\nWe integrated with a trusted 3rd party payment provider for added security, and mitigated anxiety through clear validation for successful payments."
+      },
+      {
+        title: "From white-glove to self-serve\n(The results)",
+        template: "casestudyspread",
+        content: "Following the launch of the mobile platform, we tracked user and product metrics for the service for the next few months.\n\nWe noticed a strong (and growing) adoption from our entire customer-base, leading into a significant uplift in the NPS score, which followed noticeable drop in customer churn that we faced prior to the launch.",
+        spreadItems: [
+          {
+             imageUrl: "https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/direct-results1-rev1.png",
+             bgImageUrl: "https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/direct-resultsbg1-rev2.webm"
+          },
+          {
+             imageUrl: "https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/direct-results2-rev1.png",
+             bgImageUrl: "https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/direct-resultsbg2-rev2.webm"
+          },
+          {
+             imageUrl: "https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/direct-results3-rev1.png",
+             bgImageUrl: "https://raw.githubusercontent.com/chiaheb/portfolio-assets/refs/heads/main/direct-resultsbg3-rev2.webm"
           }
         ]
       }
@@ -148,7 +206,7 @@ export const PROJECTS: Project[] = [
       },
       {
         title: "Designing for Low-Fi",
-        template: "casestudy spread",
+        template: "casestudyspread",
         content: "We optimized the interface to prioritize critical diagnostic text and static images over video when connection drops. A 'low-bandwidth' mode was developed that uses AI to upscale medical imagery locally on the doctor's device.",
         spreadItems: [
           {
@@ -210,7 +268,7 @@ export const PROJECTS: Project[] = [
     chapters: [
       {
         title: "Adaptive Minimalism",
-        template: "casestudy spread",
+        template: "casestudyspread",
         content: "Using subtle signals (typing speed, cursor movement, or integrated EEG headsets), the UI fades away until only the text remains. As the user slows down, navigation elements gently reappear.",
         spreadItems: [
            {
